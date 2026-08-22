@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Taup - Acortador de URL</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #007bff, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .contenedor {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 450px;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+    button {
+      padding: 10px 20px;
+      background: #3399ff;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #007bff;
+    }
+    .resultado {
+      margin-top: 20px;
+      padding: 10px;
+      background: #70caee; /* Corregido: Se agregó el # */
+      border: 1px solid #b2ffb2;
+      border-radius: 5px;
+      border-style: dashed;
+      color: black;
+      font-weight: bold;
+      display: none; /* Oculto por defecto hasta que se acorte la URL */
+    }
+    .resultado a {
+      color: #0044cc;
+      text-decoration: none;
+    }
+    .resultado a:hover {
+      text-decoration: underline;
+    }
+    .btn-borrar {
+      margin-top: 15px;
+      background: #ff4d4d;
+    }
+    .btn-borrar:hover {
+      background: #cc0000;
+    }
+  </style>
+</head>
+<body>
+  <div class="contenedor">
+    <h1>Acortador de URL</h1>
+    
+    <div class="input-group">
+      <input type="text" id="urlInput" placeholder="Pega tu URL larga aquí...">
+      <button id="btnAcortar" onclick="acortar()">Acortar</button>
+    </div>
+
+    <div class="resultado" id="resultadoDiv">
+      <!-- Aquí se inyectará el enlace mediante JS -->
+    </div>
+   
+    <button class="btn-borrar" id="btnBorrar" onclick="borrar()">Borrar</button>
+  </div>
+
+  <script>
+    // Función para comunicarse con FastAPI (Python)
+    async function acortar() {
+      const url = document.getElementById('urlInput').value;
+      const resultadoDiv = document.getElementById('resultadoDiv');
+      
+      if(!url) {
+        alert("Por favor, ingresa una URL larga primero.");
+        return;
+      }
+
+      try {
+        // Hacemos la petición POST a nuestra API
+        const res = await fetch('/acortar', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({url_larga: url})
+        });
+        
+        const data = await res.json();
+        
+        if(res.ok) {
+          // Mostramos el cuadro verde/azul con el enlace clickeable
+          resultadoDiv.style.display = "block";
+          resultadoDiv.innerHTML = `Enlace acortado:<br><a href="${data.url_corta}" target="_blank">${data.url_corta}</a>`;
+        } else {
+          alert("Hubo un problema: " + data.detail);
+        }
+      } catch (error) {
+        alert("Error de conexión con el servidor local.");
+      }
+    }
+
+    // Función para limpiar la interfaz (Prueba PI-05)
+    function borrar() {
+      document.getElementById('urlInput').value = "";
+      const resultadoDiv = document.getElementById('resultadoDiv');
+      resultadoDiv.style.display = "none";
+      resultadoDiv.innerHTML = "";
+    }
+  </script>
+</body>
+</html>
