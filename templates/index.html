@@ -2,25 +2,34 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Taup - Acortador de URL</title>
-  <link rel="stylesheet" href="../static/style.css">
+  <title>Taup</title>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+  <!-- Logo simple -->
+  <h2 class="logo">🔗 Taup &darr;</h2>
+
   <div class="contenedor">
-    <h1>Acortador de URL</h1>
     
-    <div class="input-group">
+    <!-- Barra principal -->
+    <div class="barra-busqueda">
+      <span>🔗</span>
       <input type="text" id="urlInput" placeholder="Pega tu URL larga aquí...">
-      <button id="btnAcortar" onclick="acortar()">Acortar</button>
+      <button onclick="acortar()">Acortar</button>
     </div>
 
-    <div class="resultado" id="resultadoDiv">
-      <!-- Aquí se inyectará el enlace mediante JS -->
+    <!-- Caja de resultado (Oculta por defecto) -->
+    <div class="resultado" id="resultadoDiv" style="display: none;">
+      <p>¡URL acortada!</p>
+      <div class="url-box">
+        <span id="shortUrlText">taup.cl/...</span>
+        <button onclick="copiarUrl()" title="Copiar">📋</button>
+      </div>
+      <button class="btn-ir" onclick="irUrl()">IR</button>
     </div>
-   
-    <button class="btn-borrar" id="btnBorrar" onclick="borrar()">Borrar</button>
+
   </div>
 
-  <script src="../static/app.js"></script>
+  <script src="/static/app.js"></script>
 </body>
 </html>

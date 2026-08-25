@@ -1,35 +1,40 @@
+let enlaceCorto = "";
+
 async function acortar() {
-  const url = document.getElementById('urlInput').value;
-  const resultadoDiv = document.getElementById('resultadoDiv');
+  const inputUrl = document.getElementById('urlInput').value;
   
-  if(!url) {
-    alert("Por favor, ingresa una URL larga primero.");
-    return;
-  }
+  if (!inputUrl) return alert("Ingresa una URL larga primero.");
 
   try {
-    const res = await fetch('/acortar', {
+    const respuesta = await fetch('/acortar', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({url_larga: url})
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url_larga: inputUrl })
     });
     
-    const data = await res.json();
+    const datos = await respuesta.json();
     
-    if(res.ok) {
-      resultadoDiv.style.display = "block";
-      resultadoDiv.innerHTML = `Enlace acortado:<br><a href="${data.url_corta}" target="_blank">${data.url_corta}</a>`;
+    if (respuesta.ok) {
+      enlaceCorto = datos.url_corta;
+      
+      // Muestra el link sin el "http://" para que se vea más limpio
+      document.getElementById('shortUrlText').innerText = enlaceCorto.replace('http://', '');
+      
+      // Hace visible la caja punteada
+      document.getElementById('resultadoDiv').style.display = "block";
     } else {
-      alert("Hubo un problema: " + data.detail);
+      alert("Error: " + datos.detail);
     }
   } catch (error) {
     alert("Error de conexión con el servidor.");
   }
 }
 
-function borrar() {
-  document.getElementById('urlInput').value = "";
-  const resultadoDiv = document.getElementById('resultadoDiv');
-  resultadoDiv.style.display = "none";
-  resultadoDiv.innerHTML = "";
+function copiarUrl() {
+  navigator.clipboard.writeText(enlaceCorto);
+  alert("¡Enlace copiado!");
+}
+
+function irUrl() {
+  window.open(enlaceCorto, '_blank');
 }
