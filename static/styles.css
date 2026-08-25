@@ -19,10 +19,10 @@ body {
   width: 100%;
   max-width: 550px;
   text-align: center;
-  margin-top: 15vh; /* Centra el contenido en pantalla */
+  margin-top: 15vh;
 }
 
-/* Barra tipo píldora */
+/* Barra de búsqueda tipo píldora */
 .barra-busqueda {
   display: flex;
   align-items: center;
@@ -31,7 +31,7 @@ body {
   padding: 6px 6px 6px 20px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   position: relative;
-  z-index: 2; /* Mantiene la barra al frente */
+  z-index: 2;
 }
 
 .barra-busqueda input {
@@ -50,6 +50,11 @@ body {
   border-radius: 50px;
   font-weight: bold;
   cursor: pointer;
+  transition: background 0.3s;
+}
+
+.barra-busqueda button:hover {
+  background: #0056b3;
 }
 
 /* Caja punteada de resultado */
@@ -57,7 +62,7 @@ body {
   background: #f8fafc;
   border: 2px dashed #aebfcc;
   border-radius: 0 0 20px 20px;
-  margin: -25px auto 0; /* Sube la caja para esconderse tras la barra */
+  margin: -25px auto 0;
   padding: 45px 20px 20px;
   width: 70%;
   position: relative;
@@ -81,13 +86,20 @@ body {
   font-size: 22px;
 }
 
+/* Botón Redirigir actualizado a Verde */
 .btn-ir {
-  background: #dc3545; /* Rojo */
+  background: #28a745;
   color: white;
   border: none;
   padding: 10px 45px;
   border-radius: 50px;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(220,53,69,0.4);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
+  transition: transform 0.2s;
+}
+
+.btn-ir:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(40, 167, 69, 0.5);
 }
