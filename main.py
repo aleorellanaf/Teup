@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import RedirectResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel
 from database.db import obtener_conexion
 import random
 import string
@@ -14,7 +14,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 class URLRequest(BaseModel):
-    url: str  # Recibimos como string para validar manualmente o usar HttpUrl
+    url: str  # Recibimos como string para validar manualmente
 
 def generar_codigo_corto(length=6):
     caracteres = string.ascii_letters + string.digits
@@ -72,7 +72,6 @@ def redirigir(codigo_corto: str, request: Request):
     conn.close()
 
     if not resultado:
-        # Aquí manejaremos luego el error 404 personalizado si no existe
         raise HTTPException(status_code=404, detail="Enlace no encontrado")
     
     url_original = resultado[0]
