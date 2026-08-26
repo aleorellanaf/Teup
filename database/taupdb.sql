@@ -1,13 +1,20 @@
-CREATE DATABASE IF NOT EXISTS taup_db
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
- 
-USE taup_db;
- 
-CREATE TABLE IF NOT EXISTS urls (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  short_code VARCHAR(10) NOT NULL UNIQUE,
-  original_url TEXT NOT NULL,
-  clicks INT NOT NULL DEFAULT 0,
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'TaupDB')
+BEGIN
+    CREATE DATABASE TaupDB;
+END
+GO
+
+USE TaupDB;
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'url_direccion')
+BEGIN
+    CREATE TABLE url_direccion (
+        id INT IDENTITY(1,1) PRIMARY KEY,
+        url_original NVARCHAR(MAX) NOT NULL,
+        url_codigo_corto VARCHAR(10) NOT NULL UNIQUE,
+        clicks INT NOT NULL DEFAULT 0,
+        creado_en DATETIME NOT NULL DEFAULT GETDATE()
+    );
+END
+GO
