@@ -22,7 +22,7 @@ def generar_codigo_corto(length=6):
 
 @app.get("/", response_class=HTMLResponse)
 def leer_raiz(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request, "index.html")
 
 @app.post("/acortar")
 def acortar_url(data: URLRequest):
