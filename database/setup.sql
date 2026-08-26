@@ -1,8 +1,10 @@
+-- Creación de la base de datos del proyecto
 CREATE DATABASE TaupDB;
 GO
 USE TaupDB;
 GO
 
+-- Creación de la tabla principal para almacenar URLs y códigos cortos
 CREATE TABLE url_direccion (
     url_id INT IDENTITY(1,1) PRIMARY KEY,
     url_original VARCHAR(MAX) NOT NULL,
